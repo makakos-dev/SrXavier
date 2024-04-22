@@ -14,9 +14,6 @@ export default async function Page({ params: { id } }: { params: { id: string } 
     getSession(),
   ]);
 
-  haircut.photoUri.push(haircut.photoUri[0]);
-  haircut.photoUri.push(haircut.photoUri[0]);
-
   return (
     <Fragment>
       <Navbar />
