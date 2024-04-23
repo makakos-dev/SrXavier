@@ -14,7 +14,9 @@ export const HaircutGrid = ({ haircuts }: { haircuts: Haircut[] }) => {
   const search = useStore().searchBar;
 
   const filteredData = haircuts.filter(({ name }) => {
-    return search.trim().length ? name.toLowerCase().includes(search.toLowerCase()) : name === name;
+    return search.trim().length
+      ? name.toLowerCase().trim().includes(search.toLowerCase().trim())
+      : name === name;
   });
 
   const { PaginationSection, CURRENT_PAGE_ITEMS } = usePagination(filteredData);

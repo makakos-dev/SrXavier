@@ -4,6 +4,7 @@ const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()-+=])[A-Za
 const phoneRegex = /^\((?:[1-9]{2})\)\s*(?:9[0-9]{4}-[0-9]{4})$/;
 const cpfRegex = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/;
 
+export const AppointmentStatus = ['Pago', 'Pendente', 'Almoço', 'Cancelado', 'Todos os Status'] as const;
 export const statuses = ['ALL', 'PAID', 'BREAK', 'PENDING', 'CANCELED'] as const;
 export const workingHours = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18] as const;
 export const specialCashPaymentEmployees = ['Eduardo Ribeiro Xavier'];
@@ -111,9 +112,9 @@ export const FormattedAppointmentDataSchema = z.object({
   employeeName: z.string(),
   appointmentId: z.string(),
   appointmentDate: z.string(),
-  appointmentStatus: z.string(),
   paymentLink: z.string().url(),
   paymentMethod: z.enum(paymentMethods),
+  appointmentStatus: z.enum(AppointmentStatus),
 });
 
 export const paymentLinkTokenSchema = z.object({
@@ -176,6 +177,7 @@ export const AccountTypeSchema = z.enum(accountTypes);
 export const HaircutsSchema = z.array(HaircutSchema);
 export const UsersSchema = z.array(UserSchema);
 
+export type AppointmentStaus = (typeof AppointmentStatus)[number];
 export type PaymentMethod = (typeof paymentMethods)[number];
 export type Roles = (typeof accountTypes)[number];
 export type Status = (typeof statuses)[number];

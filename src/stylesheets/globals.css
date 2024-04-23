@@ -49,6 +49,10 @@ div.grecaptcha-badge {
   visibility: hidden;
 }
 
+#card-content > div {
+  padding-bottom: 5.5rem;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

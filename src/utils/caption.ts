@@ -1,4 +1,4 @@
-import { PaymentMethod, Status } from '@/lib/schemas';
+import { AppointmentStaus, PaymentMethod, Status } from '@/lib/schemas';
 
 export const formatPaymentMethod = (paymentMethod: PaymentMethod) => {
   switch (paymentMethod) {
@@ -38,7 +38,7 @@ export const getScheduleStatusColor = (status?: Status | 'DISABLED') => {
   }
 };
 
-export const formatScheduleCaption = (status: Status) => {
+export const formatScheduleCaption = (status: Status): AppointmentStaus => {
   switch (status) {
     case 'ALL':
       return 'Todos os Status';
