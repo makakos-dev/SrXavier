@@ -18,7 +18,7 @@ export async function middleware(request: NextRequest) {
 
   if (userAuthentication.status !== 200) return NextResponse.redirect(new URL('/entrar', request.url));
 
-  if (request.nextUrl.pathname.startsWith('/dashboard')) {
+  if (['/dashboard', '/transacoes'].some((pathname) => pathname.startsWith(request.nextUrl.pathname))) {
     const user: User = await userAuthentication.json();
 
     const isNotAuthorizedUser = user.accountType !== 'ADMIN';
@@ -29,5 +29,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/entrar', '/registrar', '/dashboard', '/agendamentos'],
+  matcher: ['/entrar', '/registrar', '/dashboard', '/agendamentos', '/transacoes'],
 };

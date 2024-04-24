@@ -4,13 +4,15 @@ const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()-+=])[A-Za
 const phoneRegex = /^\((?:[1-9]{2})\)\s*(?:9[0-9]{4}-[0-9]{4})$/;
 const cpfRegex = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/;
 
-export const AppointmentStatus = ['Pago', 'Pendente', 'Almoço', 'Cancelado', 'Todos os Status'] as const;
+export const banks = ['Itaú', 'Banco do Brasil', 'Caixa Econômica Federal', 'Bradesco', 'Santander'] as const;
+export const appointmentStatus = ['Pago', 'Pendente', 'Almoço', 'Cancelado', 'Todos os Status'] as const;
 export const statuses = ['ALL', 'PAID', 'BREAK', 'PENDING', 'CANCELED'] as const;
 export const workingHours = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18] as const;
 export const specialCashPaymentEmployees = ['Eduardo Ribeiro Xavier'];
 export const appointmentTypes = ['REGULAR', 'SESSIONLESS'] as const;
 export const accountTypes = ['USER', 'EMPLOYEE', 'ADMIN'] as const;
 export const paymentMethods = ['PIX', 'CASH', 'CARD'] as const;
+export const transactionMethods = ['PIX', 'TED'] as const;
 
 export const LoginSchema = z.object({
   email: z.string().email({ message: 'E-mail inválido.' }),
@@ -114,7 +116,7 @@ export const FormattedAppointmentDataSchema = z.object({
   appointmentDate: z.string(),
   paymentLink: z.string().url(),
   paymentMethod: z.enum(paymentMethods),
-  appointmentStatus: z.enum(AppointmentStatus),
+  appointmentStatus: z.enum(appointmentStatus),
 });
 
 export const paymentLinkTokenSchema = z.object({
@@ -169,6 +171,88 @@ export const CreateHaircutSchema = z
     }
   });
 
+export const CreateTransactionSchema = z
+  .object({
+    pix: z.string().optional(),
+    cpf: z.string().optional(),
+    agency: z.string().optional(),
+    bank: z.enum(banks).optional(),
+    account: z.string().optional(),
+    accountName: z.string().optional(),
+    method: z.enum(transactionMethods).optional(),
+    value: z.coerce
+      .number({ errorMap: () => ({ message: 'O campo de preço aceita apenas números.' }) })
+      .positive({ message: 'Apenas valores positivos são permitidos para o preço.' })
+      .optional(),
+  })
+  .superRefine(({ method, value, pix, cpf, bank, agency, account, accountName }, refinementContext) => {
+    if (!method) {
+      refinementContext.addIssue({
+        path: ['method'],
+        code: z.ZodIssueCode.custom,
+        message: 'Selecione o método de transferência.',
+      });
+    }
+
+    if (!value) {
+      refinementContext.addIssue({
+        path: ['value'],
+        code: z.ZodIssueCode.custom,
+        message: 'Digite o valor da transferência.',
+      });
+    }
+
+    if (method === 'PIX' && !pix) {
+      refinementContext.addIssue({
+        path: ['pix'],
+        code: z.ZodIssueCode.custom,
+        message: 'Digite o código PIX.',
+      });
+    }
+
+    if (method === 'TED') {
+      if (!accountName) {
+        refinementContext.addIssue({
+          path: ['accountName'],
+          code: z.ZodIssueCode.custom,
+          message: 'Digite o nome do titular da conta.',
+        });
+      }
+
+      if (!account || account.length !== 8) {
+        refinementContext.addIssue({
+          path: ['account'],
+          code: z.ZodIssueCode.custom,
+          message: 'O número da conta deve conter pelo menos 8 caracteres.',
+        });
+      }
+
+      if (!cpf || !cpfRegex.test(cpf)) {
+        refinementContext.addIssue({
+          path: ['cpf'],
+          code: z.ZodIssueCode.custom,
+          message: 'Insira um CPF válido.',
+        });
+      }
+
+      if (!agency || agency?.length !== 4) {
+        refinementContext.addIssue({
+          path: ['agency'],
+          code: z.ZodIssueCode.custom,
+          message: 'O número da agência deve conter pelo menos 4 caracteres.',
+        });
+      }
+
+      if (!bank) {
+        refinementContext.addIssue({
+          path: ['bank'],
+          code: z.ZodIssueCode.custom,
+          message: 'Selecione o banco para a transferência.',
+        });
+      }
+    }
+  });
+
 export const FormattedAppointmentsDataSchema = z.array(FormattedAppointmentDataSchema);
 export const AppointmentsSchema = z.array(AppointmentSchema);
 export const paymentMethodSchema = z.enum(paymentMethods);
@@ -177,12 +261,15 @@ export const AccountTypeSchema = z.enum(accountTypes);
 export const HaircutsSchema = z.array(HaircutSchema);
 export const UsersSchema = z.array(UserSchema);
 
-export type AppointmentStaus = (typeof AppointmentStatus)[number];
+export type TransactionMethod = (typeof transactionMethods)[number];
+export type AppointmentStaus = (typeof appointmentStatus)[number];
 export type PaymentMethod = (typeof paymentMethods)[number];
 export type Roles = (typeof accountTypes)[number];
 export type Status = (typeof statuses)[number];
+export type Banks = (typeof banks)[number];
 
 export type FormattedAppointmentData = z.infer<typeof FormattedAppointmentDataSchema>;
+export type CreateTransactionForm = z.infer<typeof CreateTransactionSchema>;
 export type CreateHaircutForm = z.infer<typeof CreateHaircutSchema>;
 export type ScheduleForm = z.infer<typeof ScheduleFormSchema>;
 export type AccountType = z.infer<typeof AccountTypeSchema>;
