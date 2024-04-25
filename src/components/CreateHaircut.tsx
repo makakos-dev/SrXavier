@@ -1,9 +1,10 @@
 import { Form, FormControl, FormField, FormItem, FormMessage } from './ui/form';
 import { CreateHaircutForm, CreateHaircutSchema } from '@/lib/schemas';
 import { createHaircut } from '@/services/client-side/createHaircut';
+import { formatNumericInputToDecimal } from '@/utils/input';
 import { usePromiseToast } from '@/hooks/usePromiseToast';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { formatFloatNumber } from '@/utils/input';
+import { formatToCurrency } from '@/utils/number';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useForm } from 'react-hook-form';
@@ -27,20 +28,30 @@ export const CreateHaircut = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { createPromiseToast } = usePromiseToast();
 
+  const handleResetFields = () => {
+    form.reset({ name: '', description: '', images: [] });
+    if (fileInputRef?.current?.value) fileInputRef.current.value = '';
+    if (priceInputRef?.current?.value) priceInputRef.current.value = '';
+  };
+
   const handleCreateHaircut = (formData: CreateHaircutForm) => {
     const { name, price, images, description } = formData;
 
     const createHaircutPromise = createHaircut(images, { name, price, description });
     createPromiseToast('Criando o corte.', createHaircutPromise, () => {
+      handleResetFields();
       setIsCreateHaircutActive(false);
-      form.reset({ name: '', description: '', images: [] });
-      if (fileInputRef?.current?.value) fileInputRef.current.value = '';
-      if (priceInputRef?.current?.value) priceInputRef.current.value = '';
     });
   };
 
   return (
-    <Dialog open={isCreateHaircutActive} onOpenChange={setIsCreateHaircutActive}>
+    <Dialog
+      open={isCreateHaircutActive}
+      onOpenChange={(state) => {
+        handleResetFields();
+        setIsCreateHaircutActive(state);
+      }}
+    >
       <DialogContent className='max-[550px]:max-w-[90%] sm:max-w-[425px]'>
         <DialogHeader>
           <DialogTitle>Criar Novo Corte</DialogTitle>
@@ -103,7 +114,9 @@ export const CreateHaircut = () => {
                         id='price'
                         inputMode='numeric'
                         ref={priceInputRef}
-                        onChange={(event) => field.onChange(formatFloatNumber(event.target.value))}
+                        onChange={(event) =>
+                          field.onChange(formatToCurrency(formatNumericInputToDecimal(event.target.value)))
+                        }
                       />
                     </Fragment>
                   </FormControl>

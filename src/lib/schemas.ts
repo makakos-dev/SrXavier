@@ -1,3 +1,4 @@
+import { formatNumericInputToDecimal } from '@/utils/input';
 import { z } from 'zod';
 
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()-+=])[A-Za-z\d!@#$%^&*()-+=]{8,}$/;
@@ -136,9 +137,14 @@ export const CreateHaircutSchema = z
       .min(1, {
         message: 'O nome deve conter pelo menos 1 caractere.',
       }),
-    price: z.coerce
-      .number({ errorMap: () => ({ message: 'O campo de preço aceita apenas números.' }) })
-      .positive({ message: 'Apenas valores positivos são permitidos para o preço.' }),
+    price: z
+      .string({ required_error: 'É necessário adicionar um preço.' })
+      .transform((value) => formatNumericInputToDecimal(value))
+      .pipe(
+        z
+          .number({ errorMap: () => ({ message: 'O campo de preço aceita apenas números.' }) })
+          .positive({ message: 'Apenas valores positivos são permitidos para o preço.' }),
+      ),
     description: z
       .string({ errorMap: () => ({ message: 'É necessário adicionar uma descrição.' }) })
       .trim()
@@ -180,9 +186,14 @@ export const CreateTransactionSchema = z
     account: z.string().optional(),
     accountName: z.string().optional(),
     method: z.enum(transactionMethods).optional(),
-    value: z.coerce
-      .number({ errorMap: () => ({ message: 'O campo de preço aceita apenas números.' }) })
-      .positive({ message: 'Apenas valores positivos são permitidos para o preço.' })
+    value: z
+      .string()
+      .transform((value) => formatNumericInputToDecimal(value))
+      .pipe(
+        z
+          .number({ errorMap: () => ({ message: 'O campo de valor aceita apenas números.' }) })
+          .positive({ message: 'Apenas valores positivos são permitidos para o valor.' }),
+      )
       .optional(),
   })
   .superRefine(({ method, value, pix, cpf, bank, agency, account, accountName }, refinementContext) => {
@@ -235,7 +246,7 @@ export const CreateTransactionSchema = z
         });
       }
 
-      if (!agency || agency?.length !== 4) {
+      if (!agency || agency.length !== 4) {
         refinementContext.addIssue({
           path: ['agency'],
           code: z.ZodIssueCode.custom,

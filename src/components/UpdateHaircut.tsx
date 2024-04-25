@@ -2,10 +2,11 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from './ui/form';
 import { CreateHaircutForm, CreateHaircutSchema, Haircut } from '@/lib/schemas';
 import { updateHaircut } from '@/services/client-side/updateHaircut';
 import { deleteHaircut } from '@/services/client-side/deleteHaircut';
+import { formatNumericInputToDecimal } from '@/utils/input';
 import { usePromiseToast } from '@/hooks/usePromiseToast';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Fragment, useRef, useState } from 'react';
-import { formatFloatNumber } from '@/utils/input';
+import { formatToCurrency } from '@/utils/number';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useForm } from 'react-hook-form';
@@ -93,7 +94,13 @@ export const UpdateHaircut = ({ haircuts }: { haircuts: Haircut[] }) => {
   };
 
   return (
-    <Dialog open={isUpdateHaircutActive} onOpenChange={setIsUpdateHaircutActive}>
+    <Dialog
+      open={isUpdateHaircutActive}
+      onOpenChange={(state) => {
+        handleUpdateUI();
+        setIsUpdateHaircutActive(state);
+      }}
+    >
       <DialogContent className='max-[550px]:max-w-[90%] sm:max-w-[425px]'>
         <DialogHeader>
           <DialogTitle>Editar Corte</DialogTitle>
@@ -188,7 +195,9 @@ export const UpdateHaircut = ({ haircuts }: { haircuts: Haircut[] }) => {
                         id='price'
                         inputMode='numeric'
                         ref={priceInputRef}
-                        onChange={(event) => field.onChange(formatFloatNumber(event.target.value))}
+                        onChange={(event) =>
+                          field.onChange(formatToCurrency(formatNumericInputToDecimal(event.target.value)))
+                        }
                       />
                     </Fragment>
                   </FormControl>

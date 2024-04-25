@@ -1,8 +1,9 @@
+import { formatCPF, formatIntNumber, formatNumericInputToDecimal } from '@/utils/input';
 import { Form, FormControl, FormField, FormItem, FormMessage } from './ui/form';
-import { formatCPF, formatFloatNumber, formatIntNumber } from '@/utils/input';
 import { Dispatch, Fragment, SetStateAction, useRef, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { QrCode, ReceiptText } from 'lucide-react';
+import { formatToCurrency } from '@/utils/number';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useForm } from 'react-hook-form';
@@ -313,7 +314,9 @@ export const CreateTransaction = ({ isTransactionActive, setIsTransactionActive 
                         {...field}
                         ref={valueRef}
                         inputMode='numeric'
-                        onChange={(event) => field.onChange(formatFloatNumber(event.target.value))}
+                        onChange={(event) =>
+                          field.onChange(formatToCurrency(formatNumericInputToDecimal(event.target.value)))
+                        }
                       />
                     </Fragment>
                   </FormControl>

@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { CreateTransaction } from './CreateTransaction';
 import { ArrowUpRight, DollarSign } from 'lucide-react';
 import { formatDateGetDayAndYear } from '@/utils/date';
+import { formatToCurrency } from '@/utils/number';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from './ui/scroll-area';
 import { Fragment, useState } from 'react';
@@ -31,7 +32,7 @@ export const Transactions = ({ children }: { children: React.ReactNode }) => {
                 <DollarSign className='h-4 w-4 text-muted-foreground' />
               </CardHeader>
               <CardContent className='flex flex-col gap-1.5'>
-                <div className='text-2xl font-bold'>$45,231.89</div>
+                <div className='text-2xl font-bold'>{formatToCurrency(45231.89)}</div>
                 <p className='text-xs text-muted-foreground'>
                   Saldo disponível para suas transferências financeiras.
                 </p>
@@ -69,7 +70,7 @@ export const Transactions = ({ children }: { children: React.ReactNode }) => {
                           </div>
                         </TableCell>
                         <TableCell>{formatDateGetDayAndYear('2023-06-23')}</TableCell>
-                        <TableCell className='text-right'>$250.00</TableCell>
+                        <TableCell className='text-right'>{formatToCurrency(250)}</TableCell>
                       </TableRow>
                       <TableRow>
                         <TableCell>
@@ -79,7 +80,7 @@ export const Transactions = ({ children }: { children: React.ReactNode }) => {
                           </div>
                         </TableCell>
                         <TableCell>{formatDateGetDayAndYear('2023-05-15')}</TableCell>
-                        <TableCell className='text-right'>$150.00</TableCell>
+                        <TableCell className='text-right'>{formatToCurrency(150)}</TableCell>
                       </TableRow>
                       <TableRow>
                         <TableCell>
@@ -89,7 +90,7 @@ export const Transactions = ({ children }: { children: React.ReactNode }) => {
                           </div>
                         </TableCell>
                         <TableCell>{formatDateGetDayAndYear('2023-01-15')}</TableCell>
-                        <TableCell className='text-right'>$350.00</TableCell>
+                        <TableCell className='text-right'>{formatToCurrency(350)}</TableCell>
                       </TableRow>
                       <TableRow>
                         <TableCell>
@@ -99,7 +100,7 @@ export const Transactions = ({ children }: { children: React.ReactNode }) => {
                           </div>
                         </TableCell>
                         <TableCell>{formatDateGetDayAndYear('2023-03-01')}</TableCell>
-                        <TableCell className='text-right'>$450.00</TableCell>
+                        <TableCell className='text-right'>{formatToCurrency(450)}</TableCell>
                       </TableRow>
                       <TableRow>
                         <TableCell>
@@ -109,7 +110,7 @@ export const Transactions = ({ children }: { children: React.ReactNode }) => {
                           </div>
                         </TableCell>
                         <TableCell>{formatDateGetDayAndYear('2023-06-23')}</TableCell>
-                        <TableCell className='text-right'>$250.00</TableCell>
+                        <TableCell className='text-right'>{formatToCurrency(250)}</TableCell>
                       </TableRow>
                       <TableRow>
                         <TableCell>
@@ -119,7 +120,7 @@ export const Transactions = ({ children }: { children: React.ReactNode }) => {
                           </div>
                         </TableCell>
                         <TableCell>{formatDateGetDayAndYear('2023-05-15')}</TableCell>
-                        <TableCell className='text-right'>$150.00</TableCell>
+                        <TableCell className='text-right'>{formatToCurrency(150)}</TableCell>
                       </TableRow>
                       <TableRow>
                         <TableCell>
@@ -129,7 +130,7 @@ export const Transactions = ({ children }: { children: React.ReactNode }) => {
                           </div>
                         </TableCell>
                         <TableCell>{formatDateGetDayAndYear('2023-01-15')}</TableCell>
-                        <TableCell className='text-right'>$350.00</TableCell>
+                        <TableCell className='text-right'>{formatToCurrency(350)}</TableCell>
                       </TableRow>
                       <TableRow>
                         <TableCell>
@@ -139,7 +140,7 @@ export const Transactions = ({ children }: { children: React.ReactNode }) => {
                           </div>
                         </TableCell>
                         <TableCell>{formatDateGetDayAndYear('2023-03-01')}</TableCell>
-                        <TableCell className='text-right'>$450.00</TableCell>
+                        <TableCell className='text-right'>{formatToCurrency(450)}</TableCell>
                       </TableRow>
                     </TableBody>
                   </Table>
@@ -159,35 +160,35 @@ export const Transactions = ({ children }: { children: React.ReactNode }) => {
                     <p className='text-sm font-medium leading-none'>Olivia Martin</p>
                     <p className='text-sm text-muted-foreground'>olivia.martin@email.com</p>
                   </div>
-                  <div className='ml-auto font-medium'>+$1,999.00</div>
+                  <div className='ml-auto font-medium'>{formatToCurrency(1999)}</div>
                 </div>
                 <div className='flex items-center gap-4'>
                   <div className='grid gap-1'>
                     <p className='text-sm font-medium leading-none'>Jackson Lee</p>
                     <p className='text-sm text-muted-foreground'>jackson.lee@email.com</p>
                   </div>
-                  <div className='ml-auto font-medium'>+$39.00</div>
+                  <div className='ml-auto font-medium'>{formatToCurrency(39)}</div>
                 </div>
                 <div className='flex items-center gap-4'>
                   <div className='grid gap-1'>
                     <p className='text-sm font-medium leading-none'>Isabella Nguyen</p>
                     <p className='text-sm text-muted-foreground'>isabella.nguyen@email.com</p>
                   </div>
-                  <div className='ml-auto font-medium'>+$299.00</div>
+                  <div className='ml-auto font-medium'>{formatToCurrency(299)}</div>
                 </div>
                 <div className='flex items-center gap-4'>
                   <div className='grid gap-1'>
                     <p className='text-sm font-medium leading-none'>William Kim</p>
                     <p className='text-sm text-muted-foreground'>will@email.com</p>
                   </div>
-                  <div className='ml-auto font-medium'>+$99.00</div>
+                  <div className='ml-auto font-medium'>{formatToCurrency(99)}</div>
                 </div>
                 <div className='flex items-center gap-4'>
                   <div className='grid gap-1'>
                     <p className='text-sm font-medium leading-none'>Sofia Davis</p>
                     <p className='text-sm text-muted-foreground'>sofia.davis@email.com</p>
                   </div>
-                  <div className='ml-auto font-medium'>+$39.00</div>
+                  <div className='ml-auto font-medium'>{formatToCurrency(39)}</div>
                 </div>
               </CardContent>
             </Card>
