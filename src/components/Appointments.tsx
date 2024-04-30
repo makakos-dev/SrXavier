@@ -1,6 +1,7 @@
 'use client';
 
 import { useAppointmentTableFilter } from '@/hooks/useAppointmentTableFilter';
+import { EmployeeAppointmentsDetails } from './EmployeeAppointmentsDetails';
 import { AppointmentsTableFilters } from './AppointmentsTableFilters';
 import { useAppointmentsTable } from '@/hooks/useAppointmentsTable';
 import { FormattedAppointmentData } from '@/lib/schemas';
@@ -17,6 +18,7 @@ export const Appointments = ({
   children: React.ReactNode;
   appointmentsData: FormattedAppointmentData[];
 }) => {
+  const isUserAuthorized = session?.accountType === 'ADMIN' || session?.accountType === 'EMPLOYEE';
   const { filteredData } = useAppointmentTableFilter(appointmentsData);
   const { columns } = useAppointmentsTable(session);
 
@@ -30,6 +32,7 @@ export const Appointments = ({
             Veja e Gerencie seus Próximos Cortes Agendados
           </p>
         </div>
+        {isUserAuthorized && <EmployeeAppointmentsDetails appointmentsData={filteredData} />}
         <AppointmentsTable session={session} tableData={{ data: filteredData, columns: columns }}>
           <AppointmentsTableFilters />
         </AppointmentsTable>

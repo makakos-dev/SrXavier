@@ -78,21 +78,21 @@ export const useDashboardTable = () => {
 
         const userAppointment = appointmentHour + oneHour > new Date().getTime() &&
           (Boolean(row.getValue('isDone')) || Boolean(!row.getValue('isDone'))) && (
-            <Badge className='flex w-full justify-center bg-orange-400 py-1.5 uppercase text-zinc-900 brightness-110 hover:bg-orange-300'>
+            <Badge className='flex w-full justify-center bg-orange-700/80 py-1.5 uppercase text-gray-200 brightness-125 hover:bg-orange-700/80 dark:bg-orange-500/60'>
               Agendado
             </Badge>
           );
 
         const userPresence = appointmentHour + oneHour < new Date().getTime() &&
           Boolean(row.getValue('isDone')) && (
-            <Badge className='flex justify-center bg-green-500 py-1.5 uppercase text-zinc-900 brightness-110 hover:bg-green-400'>
+            <Badge className='flex justify-center bg-green-800/80 py-1.5 uppercase text-gray-200 brightness-125 hover:bg-green-800/80 dark:bg-green-600/60'>
               Presente
             </Badge>
           );
 
         const userAbsence = appointmentHour + oneHour < new Date().getTime() &&
           Boolean(!row.getValue('isDone')) && (
-            <Badge className='flex justify-center bg-red-900 py-1.5 font-medium uppercase text-gray-200 brightness-110 hover:bg-red-800'>
+            <Badge className='flex justify-center bg-red-800/80 py-1.5 font-medium uppercase text-gray-200 brightness-125 hover:bg-red-800/80 dark:bg-red-600/50'>
               Ausente
             </Badge>
           );

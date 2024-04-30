@@ -14,7 +14,10 @@ export default async function Page() {
     getAppoimentsWithRedirect(),
   ]);
 
-  const appointmentsData = await formatAppointmentsData(appointments);
+  const appointmentsData = (await formatAppointmentsData(appointments)).sort(
+    ({ appointmentDate: dateA }, { appointmentDate: dateB }) =>
+      new Date(dateB).getTime() - new Date(dateA).getTime(),
+  );
 
   return (
     <Dashboard

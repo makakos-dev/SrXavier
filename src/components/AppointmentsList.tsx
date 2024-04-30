@@ -73,9 +73,10 @@ export const AppointmentsList = ({ appointments }: { appointments: FormattedAppo
                     const statusColours: { [key in AppointmentStaus]: string } = {
                       Almoço: '',
                       'Todos os Status': '',
-                      Pago: 'dark:bg-green-600/60 dark:brightness-125 bg-green-600/80 brightness-125',
-                      Pendente: 'dark:bg-orange-500/60 dark:brightness-125 bg-orange-500/80 brightness-125',
-                      Cancelado: 'dark:bg-red-600/50 dark:brightness-125 bg-red-600/80 brightness-125',
+                      Pago: 'bg-green-800/80 hover:bg-green-800/80 dark:bg-green-600/60 brightness-125',
+                      Pendente:
+                        'bg-orange-700/80 hover:bg-orange-700/80 dark:bg-orange-500/60 brightness-125',
+                      Cancelado: 'bg-red-800/80 hover:bg-red-800/80 dark:bg-red-600/50 brightness-125',
                     };
 
                     const [hour, minutes] = formatDateGetHour(appointmentDate).split(':');
@@ -90,7 +91,7 @@ export const AppointmentsList = ({ appointments }: { appointments: FormattedAppo
                         <TableCell className='max-md:hidden'>
                           <Badge
                             variant='secondary'
-                            className={`bg- flex w-32 justify-center py-3  uppercase ${statusColours[appointmentStatus]}`}
+                            className={`flex w-32 justify-center py-3 uppercase text-gray-200 ${statusColours[appointmentStatus]}`}
                           >
                             {appointmentStatus}
                           </Badge>

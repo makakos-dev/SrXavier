@@ -36,7 +36,10 @@ export const DashboardTableFilters = ({ employees }: { employees: User[] }) => {
         {selectedEmployee}
       </div>
     ) : (
-      'Escolha do Profissional'
+      <div className='flex items-center gap-2'>
+        <UserCircle className='size-5' />
+        Escolha do Profissional
+      </div>
     );
 
   const statusPlaceholder = searchParams.get('status') ? (
@@ -45,7 +48,10 @@ export const DashboardTableFilters = ({ employees }: { employees: User[] }) => {
       {formatScheduleCaption(selectedStatus)}
     </div>
   ) : (
-    'Status do Agendamento'
+    <div className='flex items-center gap-2'>
+      {StatusIcons['ALL']}
+      Status do Agendamento
+    </div>
   );
 
   const datePlaceholder = searchParams.get('date')
@@ -54,7 +60,38 @@ export const DashboardTableFilters = ({ employees }: { employees: User[] }) => {
 
   return (
     <div className='flex gap-2 max-[1100px]:w-full max-[1100px]:flex-col'>
-      <div className='flex w-[215px] flex-col gap-2 max-[1100px]:w-full'>
+      <div className='flex w-[225px] flex-col gap-2 max-[1100px]:w-full'>
+        <Popover>
+          <PopoverTrigger asChild className='px-3'>
+            <Button variant='outline' className={cn('justify-start gap-2 text-left font-normal')}>
+              <CalendarIcon className='size-5' />
+              {datePlaceholder}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className='w-auto p-0' align='start'>
+            <Calendar
+              mode='single'
+              initialFocus
+              locale={ptBR}
+              selected={new Date(selectedDate)}
+              onSelect={(date) =>
+                createDateInputQueryString({ dateInput: formatToDateTime(date), searchParams })
+              }
+              footer={
+                <Button
+                  className='mt-2 w-full'
+                  onClick={() =>
+                    createSelectInputQueryString({ inputKey: 'date', selectInput: '', searchParams })
+                  }
+                >
+                  Limpar
+                </Button>
+              }
+            />
+          </PopoverContent>
+        </Popover>
+      </div>
+      <div className='flex w-[235px] flex-col gap-2 max-[1100px]:w-full'>
         <Select
           onValueChange={(status) =>
             createSelectInputQueryString({ inputKey: 'status', selectInput: status, searchParams })
@@ -109,37 +146,6 @@ export const DashboardTableFilters = ({ employees }: { employees: User[] }) => {
             </SelectGroup>
           </SelectContent>
         </Select>
-      </div>
-      <div className='flex w-[225px] flex-col gap-2 max-[1100px]:w-full'>
-        <Popover>
-          <PopoverTrigger asChild className='px-3'>
-            <Button variant='outline' className={cn('justify-start gap-2 text-left font-normal')}>
-              <CalendarIcon className='size-5' />
-              {datePlaceholder}
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className='w-auto p-0' align='start'>
-            <Calendar
-              mode='single'
-              initialFocus
-              locale={ptBR}
-              selected={new Date(selectedDate)}
-              onSelect={(date) =>
-                createDateInputQueryString({ dateInput: formatToDateTime(date), searchParams })
-              }
-              footer={
-                <Button
-                  className='mt-2 w-full'
-                  onClick={() =>
-                    createSelectInputQueryString({ inputKey: 'date', selectInput: '', searchParams })
-                  }
-                >
-                  Limpar
-                </Button>
-              }
-            />
-          </PopoverContent>
-        </Popover>
       </div>
     </div>
   );

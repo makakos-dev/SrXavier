@@ -36,36 +36,14 @@ export const AppointmentsTableFilters = () => {
       {formatScheduleCaption(selectedStatus)}
     </div>
   ) : (
-    'Status do Agendamento'
+    <div className='flex items-center gap-2'>
+      {StatusIcons['ALL']}
+      Status do Agendamento
+    </div>
   );
 
   return (
     <div className='flex gap-2 max-[865px]:w-full max-sm:flex-col'>
-      <div className='flex w-[215px] flex-col gap-2 max-[865px]:w-[50%] max-md:w-full'>
-        <Select
-          onValueChange={(status) =>
-            createSelectInputQueryString({ inputKey: 'status', selectInput: status, searchParams })
-          }
-        >
-          <SelectTrigger>
-            <SelectValue placeholder={statusPlaceholder} />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              {statuses.map((status) => {
-                return (
-                  <SelectItem key={status} value={status} className='cursor-pointer'>
-                    <div className='flex gap-2'>
-                      {StatusIcons[status]}
-                      {formatScheduleCaption(status)}
-                    </div>
-                  </SelectItem>
-                );
-              })}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-      </div>
       <div className='flex w-[225px] flex-col gap-2  max-[865px]:w-[50%] max-md:w-full'>
         <Popover>
           <PopoverTrigger asChild className='px-3'>
@@ -96,6 +74,31 @@ export const AppointmentsTableFilters = () => {
             />
           </PopoverContent>
         </Popover>
+      </div>
+      <div className='flex w-[235px] flex-col gap-2 max-[865px]:w-[50%] max-md:w-full'>
+        <Select
+          onValueChange={(status) =>
+            createSelectInputQueryString({ inputKey: 'status', selectInput: status, searchParams })
+          }
+        >
+          <SelectTrigger>
+            <SelectValue placeholder={statusPlaceholder} />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              {statuses.map((status) => {
+                return (
+                  <SelectItem key={status} value={status} className='cursor-pointer'>
+                    <div className='flex gap-2'>
+                      {StatusIcons[status]}
+                      {formatScheduleCaption(status)}
+                    </div>
+                  </SelectItem>
+                );
+              })}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
       </div>
     </div>
   );
