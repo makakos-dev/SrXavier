@@ -21,7 +21,7 @@ export const Transactions = ({ children }: { children: React.ReactNode }) => {
         <main className='flex flex-1 flex-col gap-8 md:gap-8'>
           <div className='grid gap-8 md:grid-cols-1 md:gap-8 lg:grid-cols-3'>
             <div className='col-span-2 ml-2 flex flex-col gap-1 max-lg:col-span-1'>
-              <h1 className='w-full font-raleway text-4xl font-medium max-md:text-3xl'>Transações</h1>
+              <h1 className='w-full font-raleway text-3xl font-bold uppercase max-md:text-3xl'>Transações</h1>
               <p className='text-base font-light max-md:text-sm'>
                 Visualize e Gerencie Suas Transações Financeiras
               </p>

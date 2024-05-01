@@ -65,6 +65,28 @@ export const formatDateGetWeekday = (date: string) => {
   }).format(new Date(date));
 };
 
+export const formatDateGetDayNumber = (date: string) => {
+  return new Intl.DateTimeFormat('pt-BR', {
+    timeZone: 'America/Sao_Paulo',
+    day: '2-digit',
+  }).format(new Date(date));
+};
+
+export const formatDateGetMonthNumber = (date: string) => {
+  return new Intl.DateTimeFormat('pt-BR', {
+    timeZone: 'America/Sao_Paulo',
+    month: '2-digit',
+  }).format(new Date(date));
+};
+
+export const formatDateGetCurrentYearAndMonthName = (month: number) => {
+  return new Intl.DateTimeFormat('pt-BR', {
+    timeZone: 'America/Sao_Paulo',
+    year: 'numeric',
+    month: 'long',
+  }).format(new Date(new Date().getFullYear(), month, new Date().getDate()));
+};
+
 export const formatDateGetDayAndYear = (date: string) => {
   return new Intl.DateTimeFormat('pt-BR', {
     timeZone: 'America/Sao_Paulo',

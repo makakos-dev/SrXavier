@@ -33,7 +33,7 @@ export const AppointmentsList = ({ appointments }: { appointments: FormattedAppo
   return (
     <main className='flex h-screen w-full flex-col gap-12 px-28 pb-20 pt-14 max-xl:px-14 max-lg:px-8 max-md:px-6'>
       <div className='flex flex-col gap-1 px-2'>
-        <h1 className='w-full font-raleway text-4xl font-medium'>Horários</h1>
+        <h1 className='w-full font-raleway text-3xl font-bold uppercase max-md:text-3xl'>Horários</h1>
         <p className='text-base font-light max-md:text-sm'>Acompanhamento de Horários em Tempo Real</p>
       </div>
       <Card className='relative h-full overflow-hidden'>
