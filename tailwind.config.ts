@@ -22,6 +22,7 @@ const config = {
         galada: ['var(--font-galada)'],
         raleway: ['var(--font-raleway)'],
         poppins: ['var(--font-poppins)'],
+        geist: ['var(--font-geist-sans)'],
       },
       colors: {
         border: 'hsl(var(--border))',

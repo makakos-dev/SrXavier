@@ -1,10 +1,11 @@
-import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { formatDateGetDayNumber, formatDateGetMonthNumber } from '@/utils/date';
 import { FormattedAppointmentData } from '@/lib/schemas';
 import { formatToCurrency } from '@/utils/number';
 import { useState } from 'react';
 
 export const useChart = (data: FormattedAppointmentData[]) => {
+  type ChartData = typeof chartData;
   const [activeMonth, setActiveMonth] = useState(new Date().getMonth());
   const activeMonthDaysCount = new Date(new Date().getFullYear(), activeMonth + 1, 0).getUTCDate();
 
@@ -48,15 +49,26 @@ export const useChart = (data: FormattedAppointmentData[]) => {
       };
     });
 
+  const getLineChartLeftMargin = (chartData: ChartData) => {
+    const MARGIN_MULTIPLIER = 12.5;
+    return (
+      String(Math.max(...chartData.map(({ dayTotalRevenue }) => dayTotalRevenue))).length * MARGIN_MULTIPLIER
+    );
+  };
+
   const ChartElement = (
     <ResponsiveContainer width='100%' height='100%'>
-      <LineChart data={chartData} margin={{ top: 8, right: 8, left: -30, bottom: 0 }}>
+      <LineChart
+        data={chartData}
+        margin={{ top: 8, right: 8, left: getLineChartLeftMargin(chartData), bottom: 0 }}
+      >
+        <CartesianGrid stroke='hsl(var(--primary)' strokeDasharray='4 4' opacity={0.2} />
         <XAxis
           dataKey='monthDay'
           interval={Math.floor(activeMonthDaysCount / 10)}
           tickFormatter={(tick, index) => (index !== 0 && tick) || ''}
         />
-        <YAxis interval='preserveStartEnd' />
+        <YAxis interval='preserveStartEnd' tickFormatter={(value) => formatToCurrency(value)} />
         <Line
           type='monotone'
           strokeWidth={2}
@@ -67,10 +79,10 @@ export const useChart = (data: FormattedAppointmentData[]) => {
         <Tooltip
           contentStyle={{
             borderRadius: '0.2rem',
-            fontFamily: 'var(--font-poppins)',
+            fontFamily: 'var(--font-geist-sans)',
             backgroundColor: 'hsl(var(--background)',
           }}
-          formatter={(value) => [formatToCurrency(Number(value)), 'Receita']}
+          formatter={(value) => [formatToCurrency(Number(value)), 'Faturamento']}
         />
       </LineChart>
     </ResponsiveContainer>

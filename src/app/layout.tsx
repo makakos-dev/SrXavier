@@ -39,7 +39,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const fonts = `${GeistSans.className} ${poppins.variable} ${raleway.variable} ${galada.variable}`;
+  const fonts = `${GeistSans.className} ${GeistSans.variable} ${poppins.variable} ${raleway.variable} ${galada.variable}`;
 
   return (
     <html lang='pt-BR'>
