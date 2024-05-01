@@ -62,7 +62,7 @@ export const useChart = (data: FormattedAppointmentData[]) => {
         data={chartData}
         margin={{ top: 8, right: 8, left: getLineChartLeftMargin(chartData), bottom: 0 }}
       >
-        <CartesianGrid stroke='hsl(var(--primary)' strokeDasharray='4 4' opacity={0.2} />
+        <CartesianGrid stroke='hsl(var(--primary))' strokeDasharray='4 4' opacity={0.2} />
         <XAxis
           dataKey='monthDay'
           interval={Math.floor(activeMonthDaysCount / 10)}
@@ -73,14 +73,14 @@ export const useChart = (data: FormattedAppointmentData[]) => {
           type='monotone'
           strokeWidth={2}
           dataKey='dayTotalRevenue'
-          stroke='hsl(var(--primary)'
-          activeDot={{ r: 6, style: { fill: 'hsl(var(--primary)', opacity: 0.25 } }}
+          stroke='hsl(var(--primary))'
+          activeDot={{ r: 6, style: { fill: 'hsl(var(--primary))', opacity: 0.25 } }}
         />
         <Tooltip
           contentStyle={{
             borderRadius: '0.2rem',
             fontFamily: 'var(--font-geist-sans)',
-            backgroundColor: 'hsl(var(--background)',
+            backgroundColor: 'hsl(var(--background))',
           }}
           formatter={(value) => [formatToCurrency(Number(value)), 'Faturamento']}
         />
