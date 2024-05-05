@@ -4,6 +4,7 @@ import { useAppointmentTableFilter } from '@/hooks/useAppointmentTableFilter';
 import { EmployeeAppointmentsDetails } from './EmployeeAppointmentsDetails';
 import { AppointmentsTableFilters } from './AppointmentsTableFilters';
 import { useAppointmentsTable } from '@/hooks/useAppointmentsTable';
+import { UnavailableDatePicker } from './UnavailableDatePicker';
 import { FormattedAppointmentData } from '@/lib/schemas';
 import { AppointmentsTable } from './AppointmentsTable';
 import type { Session } from '@/helpers/getSession';
@@ -34,7 +35,12 @@ export const Appointments = ({
         </div>
         {isUserAuthorized && <EmployeeAppointmentsDetails appointmentsData={filteredData} />}
         <AppointmentsTable session={session} tableData={{ data: filteredData, columns: columns }}>
-          <AppointmentsTableFilters />
+          <div
+            className={`grid w-full min-w-[${isUserAuthorized ? '800px' : '600px'}] max-xl:min-w-full max-xl:max-w-full max-md:grid-cols-1 max-w-[${isUserAuthorized ? '50%' : '600px'}] gap-2 grid-cols-${isUserAuthorized ? '3' : '2'}`}
+          >
+            {isUserAuthorized && <UnavailableDatePicker employeeId={session.id} />}
+            <AppointmentsTableFilters />
+          </div>
         </AppointmentsTable>
       </div>
     </Fragment>

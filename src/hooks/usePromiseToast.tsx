@@ -7,8 +7,12 @@ type PromiseResponse = Promise<{ status: string; message: string }>;
 export const usePromiseToast = () => {
   const { refresh } = useRouter();
 
-  const createPromiseToast = (message: string, promise: PromiseResponse, onSuccess?: () => void) => {
-    return toast.promise(promise, {
+  const createPromiseToast = <T,>(
+    message: string,
+    promise: T extends PromiseResponse[] ? T : PromiseResponse,
+    onSuccess?: () => void,
+  ) => {
+    return toast.promise(Array.isArray(promise) ? promise[0] : promise, {
       loading: <ToastLoadingState loadingMessage={message} />,
       success: (response) => {
         refresh();

@@ -62,13 +62,13 @@ export const AppointmentsTable = <TData, TValue>({
 
   return (
     <div className='flex w-full flex-col items-center gap-8'>
-      <div className='flex w-full items-end justify-between gap-2 max-[865px]:flex-col'>
+      <div className='flex w-full items-end justify-between gap-2 max-xl:flex-col'>
         {isUserAuthorized && (
           <Input
             placeholder='Busque pelo nome do cliente...'
             value={(table.getColumn('clientName')?.getFilterValue() as string) ?? ''}
             onChange={(event) => table.getColumn('clientName')?.setFilterValue(event.target.value)}
-            className='max-w-sm max-[865px]:max-w-full'
+            className='max-w-sm max-xl:max-w-full'
           />
         )}
         {!isUserAuthorized && (
@@ -76,7 +76,7 @@ export const AppointmentsTable = <TData, TValue>({
             placeholder='Busque pelo nome do profissional...'
             value={(table.getColumn('employeeName')?.getFilterValue() as string) ?? ''}
             onChange={(event) => table.getColumn('employeeName')?.setFilterValue(event.target.value)}
-            className='max-w-sm max-[865px]:max-w-full'
+            className='max-w-sm max-xl:max-w-full'
           />
         )}
         {children}

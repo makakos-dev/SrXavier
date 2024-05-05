@@ -13,7 +13,7 @@ export type CreateAppointment = {
   paymentMethod: PaymentMethod;
 } & ({ userId: string; type: 'REGULAR' } | { cpf: string; name: string; phone: string; type: 'SESSIONLESS' });
 
-export const createAppointment = async (params: CreateAppointment) => {
+export const createAppointment = async (params: CreateAppointment, onSuccessCustomMessage?: string) => {
   const appointment =
     params.type === 'REGULAR'
       ? {
@@ -49,7 +49,9 @@ export const createAppointment = async (params: CreateAppointment) => {
 
     return {
       status: 'success',
-      message: 'Horário reservado com sucesso! Estamos te redirecionando para o link de pagamento.',
+      message:
+        onSuccessCustomMessage ||
+        'Horário reservado com sucesso! Estamos te redirecionando para o link de pagamento.',
     } as const;
   } catch (error) {
     if (!(error instanceof Error)) throw error;

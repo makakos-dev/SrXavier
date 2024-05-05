@@ -57,6 +57,7 @@ export const Dashboard = ({
     BREAK: <CircleSlash className='size-5' />,
     PENDING: <CircleDot className='size-5' />,
     CANCELED: <XCircle className='size-5' />,
+    UNAVAILABLE: <XCircle className='size-5' />,
   };
 
   return (

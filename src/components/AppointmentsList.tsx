@@ -72,6 +72,7 @@ export const AppointmentsList = ({ appointments }: { appointments: FormattedAppo
                   }) => {
                     const statusColours: { [key in AppointmentStaus]: string } = {
                       Almoço: '',
+                      Indisponível: '',
                       'Todos os Status': '',
                       Pago: 'bg-green-800/80 hover:bg-green-800/80 dark:bg-green-600/60 brightness-125',
                       Pendente:

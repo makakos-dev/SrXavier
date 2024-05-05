@@ -6,14 +6,21 @@ const phoneRegex = /^\((?:[1-9]{2})\)\s*(?:9[0-9]{4}-[0-9]{4})$/;
 const cpfRegex = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/;
 
 export const banks = ['Itaú', 'Banco do Brasil', 'Caixa Econômica Federal', 'Bradesco', 'Santander'] as const;
-export const appointmentStatus = ['Pago', 'Pendente', 'Almoço', 'Cancelado', 'Todos os Status'] as const;
-export const statuses = ['ALL', 'PAID', 'BREAK', 'PENDING', 'CANCELED'] as const;
+export const statuses = ['ALL', 'PAID', 'BREAK', 'PENDING', 'CANCELED', 'UNAVAILABLE'] as const;
 export const workingHours = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18] as const;
 export const specialCashPaymentEmployees = ['Eduardo Ribeiro Xavier'];
 export const appointmentTypes = ['REGULAR', 'SESSIONLESS'] as const;
 export const accountTypes = ['USER', 'EMPLOYEE', 'ADMIN'] as const;
 export const paymentMethods = ['PIX', 'CASH', 'CARD'] as const;
 export const transactionMethods = ['PIX', 'TED'] as const;
+export const appointmentStatus = [
+  'Pago',
+  'Almoço',
+  'Pendente',
+  'Cancelado',
+  'Indisponível',
+  'Todos os Status',
+] as const;
 
 export const LoginSchema = z.object({
   email: z.string().email({ message: 'E-mail inválido.' }),

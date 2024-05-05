@@ -20,6 +20,8 @@ export const formatScheduleStatus = (style: 'short' | 'long', status?: Status | 
       return style === 'long' ? 'Horário de almoço' : 'Almoço';
     case 'DISABLED':
       return style === 'long' ? 'Horário expirado' : 'Expirado';
+    case 'UNAVAILABLE':
+      return style === 'long' ? 'Horário Indisponível' : 'Indisponível';
     default:
       return style === 'long' ? 'Horário disponível' : 'Disponível';
   }
@@ -33,6 +35,8 @@ export const getScheduleStatusColor = (status?: Status | 'DISABLED') => {
       return 'bg-orange-500/70 cursor-default pointer-events-none';
     case 'DISABLED':
       return 'bg-red-500/70 cursor-default pointer-events-none';
+    case 'UNAVAILABLE':
+      return 'bg-gray-500/50 cursor-default pointer-events-none';
     default:
       return 'bg-green-500/70';
   }
@@ -50,6 +54,8 @@ export const formatScheduleCaption = (status: Status): AppointmentStaus => {
       return 'Almoço';
     case 'CANCELED':
       return 'Cancelado';
+    case 'UNAVAILABLE':
+      return 'Indisponível';
   }
 };
 
