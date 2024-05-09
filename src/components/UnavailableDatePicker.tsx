@@ -7,6 +7,7 @@ import { createAppointment } from '@/services/client-side/createAppointment';
 import { usePromiseToast } from '@/hooks/usePromiseToast';
 import { CalendarIcon } from '@radix-ui/react-icons';
 import { Calendar } from '@/components/ui/calendar';
+import { useMounted } from '@/hooks/useMounted';
 import { Button } from '@/components/ui/button';
 import { DateRange } from 'react-day-picker';
 import { Fragment, useState } from 'react';
@@ -29,6 +30,7 @@ export const UnavailableDatePicker = ({ employeeId }: { employeeId: string }) =>
   const [isDatePickerActive, setIsDatePickerActive] = useState(false);
   const [date, setDate] = useState<DateRange | undefined>();
   const { createPromiseToast } = usePromiseToast();
+  const { isMounted } = useMounted();
 
   const isDateRangeSelected = date?.from && date.to;
 
@@ -67,72 +69,76 @@ export const UnavailableDatePicker = ({ employeeId }: { employeeId: string }) =>
 
   return (
     <div className='grid gap-2'>
-      <Popover open={isDatePickerActive} onOpenChange={(state) => setIsDatePickerActive(state)}>
-        <PopoverTrigger>
-          <Button
-            id='date'
-            variant='outline'
-            onClick={() => setIsDatePickerActive(true)}
-            className={cn('w-full justify-start gap-2 text-left font-normal')}
-          >
-            <CalendarIcon className='size-5' />
-            {date?.from ? (
-              date.to ? (
-                <Fragment>
-                  {formatDateGetDayAndYear(String(date.from))} - {formatDateGetDayAndYear(String(date.to))}
-                </Fragment>
+      {isMounted && (
+        <Popover open={isDatePickerActive} onOpenChange={(state) => setIsDatePickerActive(state)}>
+          <PopoverTrigger>
+            <Button
+              id='date'
+              variant='outline'
+              onClick={() => setIsDatePickerActive(true)}
+              className={cn('w-full justify-start gap-2 text-left font-normal')}
+            >
+              <CalendarIcon className='size-5' />
+              {date?.from ? (
+                date.to ? (
+                  <Fragment>
+                    {formatDateGetDayAndYear(String(date.from))} - {formatDateGetDayAndYear(String(date.to))}
+                  </Fragment>
+                ) : (
+                  formatDateGetDayAndYear(String(date.from))
+                )
               ) : (
-                formatDateGetDayAndYear(String(date.from))
-              )
-            ) : (
-              <span>Dias de Ausência</span>
-            )}
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent className='w-auto p-0' align='start'>
-          <Calendar
-            initialFocus
-            mode='range'
-            locale={ptBR}
-            selected={date}
-            numberOfMonths={1}
-            onSelect={setDate}
-            defaultMonth={date?.from}
-            disabled={(date) => isNotWithinThirtyDaysRange(date)}
-            footer={
-              isDateRangeSelected && (
-                <div className='flex w-full flex-col gap-2 pt-2'>
-                  <AlertDialog>
-                    <AlertDialogTrigger asChild>
-                      <Button className='w-full'>Marcar Ausência</Button>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
-                      <AlertDialogHeader>
-                        <AlertDialogTitle>Tem certeza que deseja marcar ausência?</AlertDialogTitle>
-                        <AlertDialogDescription>
-                          Ao prosseguir, sua ausência será registrada para o período de{' '}
-                          <span className='font-medium text-primary'>
-                            {formatDateGetDayAndYear(String(date.from))}
-                          </span>{' '}
-                          até{' '}
-                          <span className='font-medium text-primary'>
-                            {formatDateGetDayAndYear(String(date.to))}
-                          </span>
-                          .
-                        </AlertDialogDescription>
-                      </AlertDialogHeader>
-                      <AlertDialogFooter>
-                        <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                        <AlertDialogAction onClick={handleConfirmUnavailability}>Continuar</AlertDialogAction>
-                      </AlertDialogFooter>
-                    </AlertDialogContent>
-                  </AlertDialog>
-                </div>
-              )
-            }
-          />
-        </PopoverContent>
-      </Popover>
+                <span>Dias de Ausência</span>
+              )}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className='w-auto p-0' align='start'>
+            <Calendar
+              initialFocus
+              mode='range'
+              locale={ptBR}
+              selected={date}
+              numberOfMonths={1}
+              onSelect={setDate}
+              defaultMonth={date?.from}
+              disabled={(date) => isNotWithinThirtyDaysRange(date)}
+              footer={
+                isDateRangeSelected && (
+                  <div className='flex w-full flex-col gap-2 pt-2'>
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button className='w-full'>Marcar Ausência</Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Tem certeza que deseja marcar ausência?</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            Ao prosseguir, sua ausência será registrada para o período de{' '}
+                            <span className='font-medium text-primary'>
+                              {formatDateGetDayAndYear(String(date.from))}
+                            </span>{' '}
+                            até{' '}
+                            <span className='font-medium text-primary'>
+                              {formatDateGetDayAndYear(String(date.to))}
+                            </span>
+                            .
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                          <AlertDialogAction onClick={handleConfirmUnavailability}>
+                            Continuar
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  </div>
+                )
+              }
+            />
+          </PopoverContent>
+        </Popover>
+      )}
     </div>
   );
 };

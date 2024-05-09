@@ -36,7 +36,7 @@ export const Appointments = ({
         {isUserAuthorized && <EmployeeAppointmentsDetails appointmentsData={filteredData} />}
         <AppointmentsTable session={session} tableData={{ data: filteredData, columns: columns }}>
           <div
-            className={`grid w-full min-w-[${isUserAuthorized ? '800px' : '600px'}] max-xl:min-w-full max-xl:max-w-full max-md:grid-cols-1 max-w-[${isUserAuthorized ? '50%' : '600px'}] gap-2 grid-cols-${isUserAuthorized ? '3' : '2'}`}
+            className={`grid w-full ${isUserAuthorized ? 'min-w-[800px]' : 'min-w-[600px]'} max-xl:min-w-full max-xl:max-w-full max-md:grid-cols-1 ${isUserAuthorized ? 'max-w-[50%]' : 'max-w-[600px]'} gap-2 ${isUserAuthorized ? 'grid-cols-3' : 'grid-cols-2'}`}
           >
             {isUserAuthorized && <UnavailableDatePicker employeeId={session.id} />}
             <AppointmentsTableFilters />
