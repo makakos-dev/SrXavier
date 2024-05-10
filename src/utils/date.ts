@@ -102,3 +102,14 @@ export const isNotWithinThirtyDaysRange = (date: Date) => {
     date <= new Date(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 30))
   );
 };
+
+export const parseDate = (inputDate: string) => {
+  const date = new Date(inputDate);
+  return [date.getDate(), date.getMonth(), date.getFullYear()];
+};
+
+export const isAppointmentOnSameDate = (currentDate: string, appointmentDate: string) => {
+  const [appointmentDay, appointmentMonth, appointmentYear] = parseDate(appointmentDate);
+  const [day, month, year] = parseDate(currentDate);
+  return day === appointmentDay && month === appointmentMonth && year === appointmentYear;
+};

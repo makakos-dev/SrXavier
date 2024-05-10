@@ -68,10 +68,10 @@ export const UnavailableDatePicker = ({ employeeId }: { employeeId: string }) =>
   };
 
   return (
-    <div className='grid gap-2'>
+    <div className='col-span-2 flex w-full justify-end gap-2 max-2xl:col-span-1'>
       {isMounted && (
         <Popover open={isDatePickerActive} onOpenChange={(state) => setIsDatePickerActive(state)}>
-          <PopoverTrigger>
+          <PopoverTrigger className='w-fit min-w-[200px] max-2xl:w-full'>
             <Button
               id='date'
               variant='outline'

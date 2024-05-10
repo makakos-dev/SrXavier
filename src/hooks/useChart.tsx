@@ -1,5 +1,5 @@
+import { formatDateGetDayNumber, formatDateGetMonthNumber, isAppointmentOnSameDate } from '@/utils/date';
 import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import { formatDateGetDayNumber, formatDateGetMonthNumber } from '@/utils/date';
 import { FormattedAppointmentData } from '@/lib/schemas';
 import { formatToCurrency } from '@/utils/number';
 import { useState } from 'react';
@@ -17,7 +17,13 @@ export const useChart = (data: FormattedAppointmentData[]) => {
 
   const currentMonthTotalRevenue = data.reduce(
     (monthTotalRevenue, { appointmentDate, appointmentStatus, haircutPrice }) => {
-      if (appointmentStatus === 'Pago' && new Date(appointmentDate).getMonth() === activeMonth) {
+      const currentAppointmentDate = new Date(appointmentDate);
+
+      if (
+        appointmentStatus === 'Pago' &&
+        currentAppointmentDate.getMonth() === activeMonth &&
+        currentAppointmentDate.getFullYear() === new Date().getFullYear()
+      ) {
         monthTotalRevenue += haircutPrice;
       }
       return monthTotalRevenue;
@@ -32,11 +38,7 @@ export const useChart = (data: FormattedAppointmentData[]) => {
 
       const totalRevenue = data
         .filter(({ appointmentDate, appointmentStatus }) => {
-          return (
-            appointmentStatus === 'Pago' &&
-            new Date(appointmentDate).getDate() == monthDay &&
-            new Date(appointmentDate).getMonth() === activeMonth
-          );
+          return appointmentStatus === 'Pago' && isAppointmentOnSameDate(currentMonthDay, appointmentDate);
         })
         .reduce((totalRevenue, { haircutPrice }) => {
           totalRevenue += haircutPrice;

@@ -22,6 +22,7 @@ export const createQueryString = ({ searchParams, key, value }: CreateQueryStrin
   params.set(key, value);
   return String(params);
 };
+
 export const createSelectInputQueryString = ({
   inputKey,
   selectInput,

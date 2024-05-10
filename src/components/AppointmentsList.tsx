@@ -2,19 +2,25 @@
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { formatDateGetDayAndYear, formatDateGetHour, formatDateGetWeekday } from '@/utils/date';
 import { AppointmentStaus, FormattedAppointmentData } from '@/lib/schemas';
 import { ScrollArea } from './ui/scroll-area';
 import { Badge } from '@/components/ui/badge';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
+import {
+  formatDateGetDayAndYear,
+  formatDateGetHour,
+  formatDateGetWeekday,
+  isAppointmentOnSameDate,
+} from '@/utils/date';
+
 export const revalidate = 30;
 
 export const AppointmentsList = ({ appointments }: { appointments: FormattedAppointmentData[] }) => {
   const filteredAppointments = appointments
     .filter(({ appointmentDate }) => {
-      return new Date(appointmentDate).getDate() === new Date().getDate();
+      return isAppointmentOnSameDate(String(new Date()), appointmentDate);
     })
     .sort(({ appointmentDate: dateA }, { appointmentDate: dateB }) => {
       return new Date(dateA).getTime() - new Date(dateB).getTime();
