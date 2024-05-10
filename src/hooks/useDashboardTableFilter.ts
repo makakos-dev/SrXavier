@@ -16,17 +16,18 @@ export const useDashboardTableFilter = (data: FormattedAppointmentData[], employ
   const isDateSelected = searchParams.get('date');
 
   const filteredData = data.filter(({ appointmentDate, employeeName, appointmentStatus }) => {
-    return isDateSelected
-      ? isAppointmentOnSameDate(date, appointmentDate)
-      : appointmentDate &&
-          appointmentStatus === (status === 'ALL' ? appointmentStatus : formatScheduleCaption(status)) &&
-          employeeName === (isEmployeeSelected ? employee : employeeName);
+    return (
+      (isDateSelected ? isAppointmentOnSameDate(date, appointmentDate) : appointmentDate) &&
+      appointmentStatus === (status === 'ALL' ? appointmentStatus : formatScheduleCaption(status)) &&
+      employeeName === (isEmployeeSelected ? employee : employeeName)
+    );
   });
 
   const filteredDataByEmployee = data.filter(({ appointmentDate, employeeName }) => {
-    return isDateSelected
-      ? isAppointmentOnSameDate(date, appointmentDate)
-      : appointmentDate && employeeName === (isEmployeeSelected ? employee : employeeName);
+    return (
+      (isDateSelected ? isAppointmentOnSameDate(date, appointmentDate) : appointmentDate) &&
+      employeeName === (isEmployeeSelected ? employee : employeeName)
+    );
   });
 
   return { filteredData, filteredDataByEmployee, date, status, employee, isEmployeeSelected, isDateSelected };

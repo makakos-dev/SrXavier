@@ -12,10 +12,10 @@ export const useAppointmentTableFilter = (data: FormattedAppointmentData[]) => {
   const filteredData = data.filter(({ appointmentDate, appointmentStatus }) => {
     const isDateSelected = searchParams.get('date');
 
-    return isDateSelected
-      ? isAppointmentOnSameDate(date, appointmentDate)
-      : appointmentDate &&
-          appointmentStatus === (status === 'ALL' ? appointmentStatus : formatScheduleCaption(status));
+    return (
+      (isDateSelected ? isAppointmentOnSameDate(date, appointmentDate) : appointmentDate) &&
+      appointmentStatus === (status === 'ALL' ? appointmentStatus : formatScheduleCaption(status))
+    );
   });
 
   return { filteredData, date, status, searchParams };

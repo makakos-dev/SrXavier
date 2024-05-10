@@ -15,7 +15,7 @@ import {
   isAppointmentOnSameDate,
 } from '@/utils/date';
 
-export const revalidate = 30;
+export const dynamic = 'force-dynamic';
 
 export const AppointmentsList = ({ appointments }: { appointments: FormattedAppointmentData[] }) => {
   const filteredAppointments = appointments
